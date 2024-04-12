@@ -1,4 +1,4 @@
-package FirstReplica.Database;
+package ReplicaOne.Database;
 
 public class Message {
     public String FrontIpAddress,Function , MessageType, userID, newAppointmentID, newAppointmentType, oldAppointmentID, oldAppointmentType;

@@ -1,4 +1,4 @@
-package ThirdReplica.Database;
+package ReplicaThree.Database;
 
 public class Message {
     public String FrontIpAddress,Function , MessageType, userID, newAppointmentID, newAppointmentType, oldAppointmentID, oldAppointmentType;

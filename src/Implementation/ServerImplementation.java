@@ -1,9 +1,9 @@
 package Implementation;
 
-import FirstReplica.CommonOutput;
-import FirstReplica.Database.AppointData;
-import FirstReplica.Database.PatientData;
-import FirstReplica.Service.WebInterface;
+import ReplicaOne.CommonOutput;
+import ReplicaOne.Database.AppointData;
+import ReplicaOne.Database.PatientData;
+import ReplicaOne.Service.WebInterface;
 
 import javax.jws.WebService;
 import java.io.FileWriter;

@@ -1,10 +1,10 @@
-package FirstReplica;
+package ReplicaOne;
 
-import FirstReplica.Database.Message;
-import FirstReplica.Servers.MontrealServer;
-import FirstReplica.Servers.QuebecServer;
-import FirstReplica.Servers.SherbrookeServer;
-import FirstReplica.Service.WebInterface ;
+import ReplicaOne.Database.Message;
+import ReplicaOne.Servers.MontrealServer;
+import ReplicaOne.Servers.QuebecServer;
+import ReplicaOne.Servers.SherbrookeServer;
+import ReplicaOne.Service.WebInterface ;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;

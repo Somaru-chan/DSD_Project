@@ -1,4 +1,4 @@
-package SecondReplica.Servers;
+package ReplicaTwo.Servers;
 
 import Implementation.ServerImplementation ;
 

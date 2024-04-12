@@ -1,4 +1,4 @@
-package SecondReplica.Service;
+package ReplicaTwo.Service;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;

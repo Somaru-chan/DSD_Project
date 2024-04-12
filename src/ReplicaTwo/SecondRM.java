@@ -1,10 +1,10 @@
-package SecondReplica;
+package ReplicaTwo;
 
-import FirstReplica.Database.Message;
-import FirstReplica.Servers.MontrealServer;
-import FirstReplica.Servers.QuebecServer;
-import FirstReplica.Servers.SherbrookeServer;
-import FirstReplica.Service.WebInterface;
+import ReplicaTwo.Database.Message;
+import ReplicaTwo.Servers.MontrealServer;
+import ReplicaTwo.Servers.QuebecServer;
+import ReplicaTwo.Servers.SherbrookeServer;
+import ReplicaTwo.Service.WebInterface;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
