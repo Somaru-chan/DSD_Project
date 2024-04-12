@@ -1,0 +1,10 @@
+Request type: Book an appointment | Resonse: There is no such an appointment --> appointmentType:Dental appointmentID:MTLM300324
+Request type: Book an appointment | Resonse: There is no such an appointment --> appointmentType:Surgeon appointmentID:MTLM300324
+Request type: Book an appointment | Resonse: There is no such an appointment --> appointmentType:Physician appointmentID:MTLM300324
+Request type: Book an appointment | Resonse: Booking request has been approved --> appointmentType:Dental appointmentID:MTLM300324
+Request type: Book an appointment | Response: Booking request has been approved --> appointmentType:Physician appointmentID:MTLE111124
+Request type: Book an appointment | Response: Booking request has been approved --> appointmentType:Surgeon appointmentID:MTLM121224
+Request type: Cancel an appointment | Response: appointment has been canceled --> appointmentType:Physician appointmentID:MTLE111124
+Request type: Book an appointment | Response: Booking request has been approved --> appointmentType:Dental appointmentID:MTLM300924
+Request type: Book an appointment | Response: Booking request has been approved --> appointmentType:Physician appointmentID:MTLE101024
+Request type: Cancel an appointment | Response: appointment has been canceled --> appointmentType:Dental appointmentID:MTLM300924
