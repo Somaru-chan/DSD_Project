@@ -37,7 +37,6 @@ public class Client {
     static Scanner userInput = new Scanner(System.in);
 
     //TODO: add concurrency to test
-    //TODO: find a way to include replica number in namespace
 
     public static void main(String[] args) {
 
@@ -110,44 +109,29 @@ public class Client {
         System.out.println("Please enter your user ID:");
         Scanner userInput = new Scanner(System.in);
         String input = userInput.nextLine().toLowerCase();
-        String replicaNum = "";
-        IFEServices feServices;
 
         if (input.length() != 10) {
             System.out.println("Please enter a valid ID");
             Run();
         } else{
-            switch(input.substring(0, 3).toUpperCase().trim()){
-                case "MTL":
-                    //.SecondReplica
-                    URL montrealURL = new URL("http://localhost:6231/montreal?wsdl");
-                    QName montrealQName = new QName("http://Service/", "ServerImplementationService");
-                    montrealSer = Service.create(montrealURL, montrealQName);
-                    feServices = montrealSer.getPort(IFEServices.class);
-                    break;
-                case "QUE":
-                    URL quebecURL = new URL("http://localhost:6230/quebec?wsdl");
-                    QName quebecQName = new QName("http://Service", "ServerImplementationService");
-                    quebecSer = Service.create(quebecURL, quebecQName);
-                    feServices = quebecSer.getPort(IFEServices.class);
-                    break;
-                case "SHE":
-                    URL sherbrookeURL = new URL("http://localhost:6229/sherbrooke?wsdl");
-                    QName sherbrookeQName = new QName("http://Service", "ServerImplementationService");
-                    sherbrookeSer = Service.create(sherbrookeURL, sherbrookeQName);
-                    feServices = sherbrookeSer.getPort(IFEServices.class);
-                    break;
-            }
+            URL url = new URL("http://localhost:9004/fe/?wsdl");
+//            System.out.println(url);
+            QName qName = new QName("http://FrontEnd/", "FEServicesImplService");
+//            System.out.println(qName);
+            Service service = Service.create(url, qName);
+            IFEServices userService = service.getPort(IFEServices.class);
 
-            checkUserType(userInput.nextLine().toLowerCase());
+            int userType = checkUserType(input);
 
-            if (USER_TYPE_PATIENT == 1) {
+            if (userType == USER_TYPE_PATIENT) {
+//                System.out.println(userType);
                 try {
                     patient(input);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } else if (USER_TYPE_ADMIN == 2) {
+            } else if (userType == USER_TYPE_ADMIN) {
+//                System.out.println(userType);
                 try {
                     admin(input);
                 } catch (Exception e) {
@@ -161,7 +145,7 @@ public class Client {
     }
 
     private static int checkUserType(String userID) {
-        if (userID.length() == 8) {
+        if (userID.length() == 10) {
             if (userID.substring(0, 3).equalsIgnoreCase("MTL") ||
                     userID.substring(0, 3).equalsIgnoreCase("QUE") ||
                     userID.substring(0, 3).equalsIgnoreCase("SHE")) {
@@ -184,31 +168,12 @@ public class Client {
             return;
         }
 
-        String city = "";
-        int portNumb = -1;
-
-        switch (branchCode) {
-            case "MTL":
-                city = "montreal";
-                portNumb = 6231;
-                break;
-            case "QUE":
-                city = "quebec";
-                portNumb = 6230;
-                break;
-            case "SHE":
-                city = "sherbrooke";
-                portNumb = 6229;
-                break;
-            default:
-                break;
-        }
-        Service service;
-        IFEServices feServices;
-        URL serviceURL = new URL("http://localhost:" + portNumb + "/" + city + "?wsdl");
-        QName serviceQName = new QName("http://Service/", "ServerImplementationService");
-        service = Service.create(serviceURL, serviceQName);
-        feServices = service.getPort(IFEServices.class);
+        URL url = new URL("http://localhost:9004/fe/?wsdl");
+//        System.out.println(url);
+        QName qName = new QName("http://FrontEnd/", "FEServicesImplService");
+//        System.out.println(qName);
+        Service service = Service.create(url, qName);
+        IFEServices userService = service.getPort(IFEServices.class);
 
         boolean repeat = true;
         printMenu(USER_TYPE_PATIENT);
@@ -222,13 +187,13 @@ public class Client {
                     appointmentType = promptForAppointmentType();
                     appointmentID = promptForAppointmentID();
 //                    ClientLogger.clientLog(patientID, " attempting to bookAppointment");
-                    serverResponse = feServices.bookAppointment(patientID, appointmentID, appointmentType);
+                    serverResponse = userService.bookAppointment(patientID, appointmentID, appointmentType);
                     System.out.println(serverResponse);
 //                    ClientLogger.clientLog(patientID, " bookAppointment", " appointmentID: " + appointmentID + " appointmentType: " + appointmentType + " ", serverResponse);
                     break;
                 case PATIENT_GET_APPOINTMENT_SCHEDULE:
 //                    ClientLogger.clientLog(patientID, " attempting to getBookingSchedule");
-                    serverResponse = feServices.getAppointmentSchedule(patientID);
+                    serverResponse = userService.getAppointmentSchedule(patientID);
                     System.out.println(serverResponse);
 //                    ClientLogger.clientLog(patientID, " bookAppointment", " null ", serverResponse);
                     break;
@@ -236,7 +201,7 @@ public class Client {
                     appointmentType = promptForAppointmentType();
                     appointmentID = promptForAppointmentID();
 //                    ClientLogger.clientLog(patientID, " attempting to cancelAppointment");
-                    serverResponse = feServices.cancelAppointment(patientID, appointmentID, appointmentType);
+                    serverResponse = userService.cancelAppointment(patientID, appointmentID, appointmentType);
                     System.out.println(serverResponse);
 //                    ClientLogger.clientLog(patientID, " bookAppointment", " appointmentID: " + appointmentID + " appointmentType: " + appointmentType + " ", serverResponse);
                     break;
@@ -248,13 +213,13 @@ public class Client {
                     String newAppointmentType = promptForAppointmentType();
                     String newAppointmentID = promptForAppointmentID();
 //                    ClientLogger.clientLog(patientID, " attempting to swapAppointment");
-                    serverResponse = feServices.swapAppointment(patientID, newAppointmentID, newAppointmentType, appointmentID, appointmentType);
+                    serverResponse = userService.swapAppointment(patientID, newAppointmentID, newAppointmentType, appointmentID, appointmentType);
                     System.out.println(serverResponse);
 //                    ClientLogger.clientLog(patientID, " swapAppointment", " oldAppointmentID: " + appointmentID + " oldAppointmentType: " + appointmentType + " newAppointmentID: " + newAppointmentID + " newAppointmentType: " + newAppointmentType + " ", serverResponse);
                     break;
                 case SHUTDOWN:
 //                    ClientLogger.clientLog(patientID, " attempting ORB shutdown");
-                    feServices.shutdown();
+                    userService.shutdown();
 //                    ClientLogger.clientLog(patientID, " shutdown");
                     return;
                 case PATIENT_LOGOUT:
@@ -270,34 +235,20 @@ public class Client {
 
     private static void admin(String appointmentAdminID) throws Exception {
         String branchCode = serverBranch(userInput.nextLine().trim());
-        String city = "";
-        int portNumb = -1;
         if (branchCode == "Null") {
             System.out.println("Invalid branch! Please re-enter a valid user ID");
             return;
         }
-        switch (branchCode) {
-            case "MTL":
-                city = "montreal";
-                portNumb = 6231;
-                break;
-            case "QUE":
-                city = "quebec";
-                portNumb = 6230;
-                break;
-            case "SHE":
-                city = "sherbrooke";
-                portNumb = 6229;
-                break;
-            default:
-                break;
-        }
-        Service service;
-        IFEServices FEService;
-        URL serviceURL = new URL("http://localhost:" + portNumb + "/" + city + "?wsdl");
-        QName serviceQName = new QName("http://Service/", "ServerImplementationService");
-        service = Service.create(serviceURL, serviceQName);
-        FEService = service.getPort(IFEServices.class);
+
+        URL url = new URL("http://localhost:9004/fe/?wsdl");
+//        System.out.println(url);
+        QName qName = new QName("http://FrontEnd/", "FEServicesImplService");
+//        System.out.println(qName);
+        Service service = Service.create(url, qName);
+        IFEServices userService = service.getPort(IFEServices.class);
+
+        System.out.println("The admin reaches this point");
+
         boolean repeat = true;
         printMenu(USER_TYPE_ADMIN);
         String patientID;
@@ -312,7 +263,7 @@ public class Client {
                 appointmentID = promptForAppointmentID();
                 capacity = promptForCapacity();
 //                ClientLogger.clientLog(appointmentAdminID, " attempting to addAppointment");
-                serverResponse = FEService.addAppointment(appointmentAdminID, appointmentID, appointmentType, capacity);
+                serverResponse = userService.addAppointment(appointmentAdminID, appointmentID, appointmentType, capacity);
                 System.out.println(serverResponse);
 //                ClientLogger.clientLog(appointmentAdminID, " addAppointment", " appointmentID: " + appointmentID + " appointmentType: " + appointmentType + " appointmentCapacity: " + capacity + " ", serverResponse);
                 break;
@@ -320,14 +271,14 @@ public class Client {
                 appointmentType = promptForAppointmentType();
                 appointmentID = promptForAppointmentID();
 //                ClientLogger.clientLog(appointmentAdminID, " attempting to removeAppointment");
-                serverResponse = FEService.removeAppointment(appointmentAdminID, appointmentID, appointmentType);
+                serverResponse = userService.removeAppointment(appointmentAdminID, appointmentID, appointmentType);
                 System.out.println(serverResponse);
 //                ClientLogger.clientLog(appointmentAdminID, " removeAppointment", " appointmentID: " + appointmentID + " appointmentType: " + appointmentType + " ", serverResponse);
                 break;
             case ADMIN_LIST_APPOINTMENT_AVAILABILITY:
                 appointmentType = promptForAppointmentType();
 //                ClientLogger.clientLog(appointmentAdminID, " attempting to listAppointmentAvailability");
-                serverResponse = FEService.listAppointmentAvailability(appointmentAdminID, appointmentType);
+                serverResponse = userService.listAppointmentAvailability(appointmentAdminID, appointmentType);
                 System.out.println(serverResponse);
 //                ClientLogger.clientLog(appointmentAdminID, " listAppointmentAvailability", " appointmentType: " + appointmentType + " ", serverResponse);
                 break;
@@ -336,14 +287,14 @@ public class Client {
                 appointmentType = promptForAppointmentType();
                 appointmentID = promptForAppointmentID();
 //                ClientLogger.clientLog(appointmentAdminID, " attempting to bookAppointment");
-                serverResponse = FEService.bookAppointment(patientID, appointmentID, appointmentType);
+                serverResponse = userService.bookAppointment(patientID, appointmentID, appointmentType);
                 System.out.println(serverResponse);
 //                ClientLogger.clientLog(appointmentAdminID, " bookAppointment", " patientID: " + patientID + " appointmentID: " + appointmentID + " appointmentType: " + appointmentType + " ", serverResponse);
                 break;
             case ADMIN_GET_BOOKING_SCHEDULE:
                 patientID = askForPatientIDFromAdmin(appointmentAdminID.substring(0, 3));
 //                ClientLogger.clientLog(appointmentAdminID, " attempting to getBookingSchedule");
-                serverResponse = FEService.getAppointmentSchedule(patientID);
+                serverResponse = userService.getAppointmentSchedule(patientID);
                 System.out.println(serverResponse);
 //                ClientLogger.clientLog(appointmentAdminID, " getBookingSchedule", " patientID: " + patientID + " ", serverResponse);
                 break;
@@ -352,7 +303,7 @@ public class Client {
                 appointmentType = promptForAppointmentType();
                 appointmentID = promptForAppointmentID();
 //                ClientLogger.clientLog(appointmentAdminID, " attempting to cancelAppointment");
-                serverResponse = FEService.cancelAppointment(patientID, appointmentID, appointmentType);
+                serverResponse = userService.cancelAppointment(patientID, appointmentID, appointmentType);
                 System.out.println(serverResponse);
 //                ClientLogger.clientLog(appointmentAdminID, " cancelAppointment", " patientID: " + patientID + " appointmentID: " + appointmentID + " appointmentType: " + appointmentType + " ", serverResponse);
                 break;
@@ -365,13 +316,13 @@ public class Client {
                 String newAppointmentType = promptForAppointmentType();
                 String newAppointmentID = promptForAppointmentID();
 //                ClientLogger.clientLog(appointmentAdminID, " attempting to swapAppointment");
-                serverResponse = FEService.swapAppointment(patientID, newAppointmentID, newAppointmentType, appointmentID, appointmentType);
+                serverResponse = userService.swapAppointment(patientID, newAppointmentID, newAppointmentType, appointmentID, appointmentType);
                 System.out.println(serverResponse);
 //                ClientLogger.clientLog(appointmentAdminID, " swapAppointment", " patientID: " + patientID + " oldAppointmentID: " + appointmentID + " oldAppointmentType: " + appointmentType + " newAppointmentID: " + newAppointmentID + " newAppointmentType: " + newAppointmentType + " ", serverResponse);
                 break;
             case SHUTDOWN:
 //                ClientLogger.clientLog(appointmentAdminID, " attempting ORB shutdown");
-                FEService.shutdown();
+                userService.shutdown();
 //                ClientLogger.clientLog(appointmentAdminID, " shutdown");
                 return;
             case ADMIN_LOGOUT:
