@@ -1,6 +1,5 @@
 package Client;
 
-//import FirstReplica.Service.WebInterface;
 import Implementation.WebInterface;
 import FrontEnd.IFEServices;
 
@@ -38,6 +37,7 @@ public class Client {
     static Scanner userInput = new Scanner(System.in);
 
     //TODO: add concurrency to test
+    //TODO: find a way to include replica number in namespace
 
     public static void main(String[] args) {
 
@@ -119,6 +119,7 @@ public class Client {
         } else{
             switch(input.substring(0, 3).toUpperCase().trim()){
                 case "MTL":
+                    //.SecondReplica
                     URL montrealURL = new URL("http://localhost:6231/montreal?wsdl");
                     QName montrealQName = new QName("http://Service/", "ServerImplementationService");
                     montrealSer = Service.create(montrealURL, montrealQName);
@@ -126,13 +127,13 @@ public class Client {
                     break;
                 case "QUE":
                     URL quebecURL = new URL("http://localhost:6230/quebec?wsdl");
-                    QName quebecQName = new QName("http://Service."+ replicaNum +"/", "ServerImplementationService");
+                    QName quebecQName = new QName("http://Service", "ServerImplementationService");
                     quebecSer = Service.create(quebecURL, quebecQName);
                     feServices = quebecSer.getPort(IFEServices.class);
                     break;
                 case "SHE":
                     URL sherbrookeURL = new URL("http://localhost:6229/sherbrooke?wsdl");
-                    QName sherbrookeQName = new QName("http://Service/", "ServerImplementationService");
+                    QName sherbrookeQName = new QName("http://Service", "ServerImplementationService");
                     sherbrookeSer = Service.create(sherbrookeURL, sherbrookeQName);
                     feServices = sherbrookeSer.getPort(IFEServices.class);
                     break;

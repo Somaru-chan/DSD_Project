@@ -132,7 +132,7 @@ public class SecondRM {
                             quebecSer = Service.create(quebecURL, quebecQName);
                             WebInterface QUE_Object = quebecSer.getPort(WebInterface.class);
                             QUE_Object.shutdown();
-                            System.out.println("RM1 shutdown Quebec Server");
+                            System.out.println("RM2 shutdown Quebec Server");
 
                             //reboot Sherbrooke Server
                             URL sherbrookeURL = new URL("http://localhost:6229/sherbrooke?wsdl");
@@ -140,7 +140,7 @@ public class SecondRM {
                             sherbrookeSer = Service.create(sherbrookeURL, sherbrookeQName);
                             WebInterface SHE_Object = sherbrookeSer.getPort(WebInterface.class);
                             SHE_Object.shutdown();
-                            System.out.println("RM1 shutdown Sherbrooke Server");
+                            System.out.println("RM2 shutdown Sherbrooke Server");
 
                             //running all servers
                             MontrealServer.main(new String[0]);
