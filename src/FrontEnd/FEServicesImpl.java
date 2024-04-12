@@ -30,8 +30,8 @@ public class FEServicesImpl implements IFEServices {
     @Override
     public synchronized String addAppointment(String adminID, String appointmentID, String appointmentType, Integer capacity) {
         MyRequest myRequest = new MyRequest("addAppointment", adminID);
-//        myRequest.setAppointmentID(appointmentID);
-//        myRequest.setAppointmentType(appointmentType);
+        myRequest.setAppointmentID(appointmentID);
+        myRequest.setAppointmentType(appointmentType);
         myRequest.setBookingCapacity(capacity);
         myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
         System.out.println("FE Implementation:addAppointment>>>" + myRequest.toString());
@@ -51,7 +51,7 @@ public class FEServicesImpl implements IFEServices {
     @Override
     public synchronized String listAppointmentAvailability(String adminID, String appointmentType) {
         MyRequest myRequest = new MyRequest("listAppointmentAvailability", adminID);
-//        myRequest.setAppointmentType(appointmentType);
+        myRequest.setAppointmentType(appointmentType);
         myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
         System.out.println("FE Implementation:listAppointmentAvailability>>>" + myRequest.toString());
         return validateResponses(myRequest);
@@ -60,8 +60,8 @@ public class FEServicesImpl implements IFEServices {
     @Override
     public synchronized String bookAppointment(String patientID, String appointmentID, String appointmentType) {
         MyRequest myRequest = new MyRequest("bookAppointment", patientID);
-//        myRequest.setAppointmentID(appointmentID);
-//        myRequest.setAppointmentType(appointmentType);
+        myRequest.setAppointmentID(appointmentID);
+        myRequest.setAppointmentType(appointmentType);
         myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
         System.out.println("FE Implementation:bookAppointment>>>" + myRequest.toString());
         return validateResponses(myRequest);
@@ -78,8 +78,8 @@ public class FEServicesImpl implements IFEServices {
     @Override
     public synchronized String cancelAppointment(String patientID, String appointmentID, String appointmentType) {
         MyRequest myRequest = new MyRequest("cancelAppointment", patientID);
-//        myRequest.setAppointmentID(appointmentID);
-//        myRequest.setAppointmentType(appointmentType);
+        myRequest.setAppointmentID(appointmentID);
+        myRequest.setAppointmentType(appointmentType);
         myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
         System.out.println("FE Implementation:cancelAppointment>>>" + myRequest.toString());
         return validateResponses(myRequest);
@@ -88,10 +88,10 @@ public class FEServicesImpl implements IFEServices {
     @Override
     public synchronized String swapAppointment(String patientID, String oldAppointmentID, String oldAppointmentType, String newAppointmentID, String newAppointmentType) {
         MyRequest myRequest = new MyRequest("swapAppointment", patientID);
-//        myRequest.setAppointmentID(newAppointmentID);
-//        myRequest.setAppointmentType(newAppointmentType);
-//        myRequest.setOldAppointmentID(oldAppointmentID);
-//        myRequest.setOldAppointmentType(oldAppointmentType);
+        myRequest.setAppointmentID(newAppointmentID);
+        myRequest.setAppointmentType(newAppointmentType);
+        myRequest.setOldAppointmentID(oldAppointmentID);
+        myRequest.setOldAppointmentType(oldAppointmentType);
         myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
         System.out.println("FE Implementation:swapAppointment>>>" + myRequest.toString());
         return validateResponses(myRequest);
