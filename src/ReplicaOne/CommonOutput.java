@@ -1,4 +1,4 @@
-package FirstReplica;
+package ReplicaOne;
 
 import java.util.List;
 import java.util.Map;

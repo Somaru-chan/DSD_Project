@@ -1,4 +1,4 @@
-package ThirdReplica.Servers;
+package ReplicaThree.Servers;
 
 import Implementation.ServerImplementation;
 import javax.xml.ws.Endpoint;

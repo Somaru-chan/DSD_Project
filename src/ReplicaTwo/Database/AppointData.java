@@ -1,4 +1,4 @@
-package SecondReplica.Database;
+package ReplicaTwo.Database;
 
 public class AppointData {
     public String appointmentType, appointmentID;

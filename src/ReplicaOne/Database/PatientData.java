@@ -1,4 +1,4 @@
-package FirstReplica.Database;
+package ReplicaOne.Database;
 
 public class PatientData {
     public String patientID, appointmentID, appointmentType;

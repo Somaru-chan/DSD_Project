@@ -1,4 +1,4 @@
-package ThirdReplica.Service;
+package ReplicaThree.Service;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;

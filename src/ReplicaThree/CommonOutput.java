@@ -1,4 +1,4 @@
-package ThirdReplica;
+package ReplicaThree;
 
 import java.util.List;
 import java.util.Map;

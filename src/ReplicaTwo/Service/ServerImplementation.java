@@ -1,9 +1,9 @@
-package SecondReplica.Service;
+package ReplicaTwo.Service;
 
-import FirstReplica.CommonOutput;
-import FirstReplica.Database.AppointData;
-import FirstReplica.Database.PatientData;
-import FirstReplica.Service.WebInterface;
+import ReplicaTwo.CommonOutput;
+import ReplicaTwo.Database.AppointData;
+import ReplicaTwo.Database.PatientData;
+import ReplicaTwo.Service.WebInterface;
 
 import javax.jws.WebService;
 import java.io.FileWriter;

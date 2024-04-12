@@ -1,4 +1,4 @@
-package ThirdReplica.Database;
+package ReplicaThree.Database;
 
 public class PatientData {
     public String patientID, appointmentID, appointmentType;
