@@ -273,7 +273,7 @@ public class SecondRM {
         Service service;
         WebInterface serviceInterface;
 
-        switch(portNumber) {
+        switch (portNumber) {
             case 6231:
                 serverBranch = "montreal";
                 break;
