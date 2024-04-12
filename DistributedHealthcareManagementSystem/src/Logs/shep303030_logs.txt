@@ -1,3 +1,0 @@
-Request type: Book an appointment | Response: Booking request has been approved --> appointmentType:Dental appointmentID:SHEM300924
-Request type: Book an appointment | Response: Booking request has been approved --> appointmentType:Physician appointmentID:SHEA101024
-Request type: Cancel an appointment | Response: appointment has been canceled --> appointmentType:Dental appointmentID:SHEM300924
