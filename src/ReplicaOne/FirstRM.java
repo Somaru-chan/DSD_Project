@@ -128,7 +128,7 @@ public class FirstRM {
                             serversFlag = false;
                             //reboot Monteal Server
                             URL montrealURL = new URL("http://localhost:6131/montreal?wsdl");
-                            QName montrealQName = new QName("http://Service.FirstReplica/", "ServerImplementationService");
+                            QName montrealQName = new QName("http://ReplicaOne/", "ServerImplementationService");
                             montrealSer = Service.create(montrealURL, montrealQName);
                             WebInterface MTL_Object = montrealSer.getPort(WebInterface.class);
                             MTL_Object.shutdown();
@@ -136,7 +136,7 @@ public class FirstRM {
 
                             //reboot Quebec Server
                             URL quebecURL = new URL("http://localhost:6130/quebec?wsdl");
-                            QName quebecQName = new QName("http://Service.FirstReplica/", "ServerImplementationService");
+                            QName quebecQName = new QName("http://ReplicaOne/", "ServerImplementationService");
                             quebecSer = Service.create(quebecURL, quebecQName);
                             WebInterface QUE_Object = quebecSer.getPort(WebInterface.class);
                             QUE_Object.shutdown();
@@ -144,7 +144,7 @@ public class FirstRM {
 
                             //reboot Sherbrooke Server
                             URL sherbrookeURL = new URL("http://localhost:6129/sherbrooke?wsdl");
-                            QName sherbrookeQName = new QName("http://Service.FirstReplica/", "ServerImplementationService");
+                            QName sherbrookeQName = new QName("http://ReplicaOne/", "ServerImplementationService");
                             sherbrookeSer = Service.create(sherbrookeURL, sherbrookeQName);
                             WebInterface SHE_Object = sherbrookeSer.getPort(WebInterface.class);
                             SHE_Object.shutdown();

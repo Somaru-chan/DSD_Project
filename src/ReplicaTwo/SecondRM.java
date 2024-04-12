@@ -120,7 +120,7 @@ public class SecondRM {
                             serversFlag = false;
                             //reboot Monteal Server
                             URL montrealURL = new URL("http://localhost:6231/montreal?wsdl");
-                            QName montrealQName = new QName("http://Service.SecondReplica/", "ServerImplementationService");
+                            QName montrealQName = new QName("http://ReplicaTwo/", "ServerImplementationService");
                             montrealSer = Service.create(montrealURL, montrealQName);
                             WebInterface MTL_Object = montrealSer.getPort(WebInterface.class);
                             MTL_Object.shutdown();
@@ -128,7 +128,7 @@ public class SecondRM {
 
                             //reboot Quebec Server
                             URL quebecURL = new URL("http://localhost:6230/quebec?wsdl");
-                            QName quebecQName = new QName("http://Service.SecondReplica/", "ServerImplementationService");
+                            QName quebecQName = new QName("http://ReplicaTwo/", "ServerImplementationService");
                             quebecSer = Service.create(quebecURL, quebecQName);
                             WebInterface QUE_Object = quebecSer.getPort(WebInterface.class);
                             QUE_Object.shutdown();
@@ -136,7 +136,7 @@ public class SecondRM {
 
                             //reboot Sherbrooke Server
                             URL sherbrookeURL = new URL("http://localhost:6229/sherbrooke?wsdl");
-                            QName sherbrookeQName = new QName("http://Service.SecondReplica/", "ServerImplementationService");
+                            QName sherbrookeQName = new QName("http://ReplicaTwo/", "ServerImplementationService");
                             sherbrookeSer = Service.create(sherbrookeURL, sherbrookeQName);
                             WebInterface SHE_Object = sherbrookeSer.getPort(WebInterface.class);
                             SHE_Object.shutdown();
