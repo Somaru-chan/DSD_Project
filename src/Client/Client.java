@@ -25,7 +25,7 @@ public class Client {
     public static final int ADMIN_REMOVE_APPOINTMENT = 2;
     public static final int ADMIN_LIST_APPOINTMENT_AVAILABILITY = 3;
     public static final int ADMIN_BOOK_APPOINTMENT = 4;
-    public static final int ADMIN_GET_BOOKING_SCHEDULE = 5;
+    public static final int ADMIN_GET_APPOINTMENT_SCHEDULE = 5;
     public static final int ADMIN_CANCEL_APPOINTMENT = 6;
     public static final int ADMIN_SWAP_APPOINTMENT = 7;
     public static final int ADMIN_LOGOUT = 8;
@@ -192,7 +192,7 @@ public class Client {
 //                    ClientLogger.clientLog(patientID, " bookAppointment", " appointmentID: " + appointmentID + " appointmentType: " + appointmentType + " ", serverResponse);
                     break;
                 case PATIENT_GET_APPOINTMENT_SCHEDULE:
-//                    ClientLogger.clientLog(patientID, " attempting to getBookingSchedule");
+//                    ClientLogger.clientLog(patientID, " attempting to getAppointmentSchedule");
                     serverResponse = userService.getAppointmentSchedule(patientID);
                     System.out.println(serverResponse);
 //                    ClientLogger.clientLog(patientID, " bookAppointment", " null ", serverResponse);
@@ -291,12 +291,12 @@ public class Client {
                 System.out.println(serverResponse);
 //                ClientLogger.clientLog(appointmentAdminID, " bookAppointment", " patientID: " + patientID + " appointmentID: " + appointmentID + " appointmentType: " + appointmentType + " ", serverResponse);
                 break;
-            case ADMIN_GET_BOOKING_SCHEDULE:
+            case ADMIN_GET_APPOINTMENT_SCHEDULE:
                 patientID = askForPatientIDFromAdmin(appointmentAdminID.substring(0, 3));
-//                ClientLogger.clientLog(appointmentAdminID, " attempting to getBookingSchedule");
+//                ClientLogger.clientLog(appointmentAdminID, " attempting to getAppointmentSchedule");
                 serverResponse = userService.getAppointmentSchedule(patientID);
                 System.out.println(serverResponse);
-//                ClientLogger.clientLog(appointmentAdminID, " getBookingSchedule", " patientID: " + patientID + " ", serverResponse);
+//                ClientLogger.clientLog(appointmentAdminID, " getAppointmentSchedule", " patientID: " + patientID + " ", serverResponse);
                 break;
             case ADMIN_CANCEL_APPOINTMENT:
                 patientID = askForPatientIDFromAdmin(appointmentAdminID.substring(0, 3));

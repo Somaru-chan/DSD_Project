@@ -71,9 +71,9 @@ public class FEServicesImpl implements IFEServices {
 
     @Override
     public synchronized String getAppointmentSchedule(String patientID) {
-        MyRequest myRequest = new MyRequest("getBookingSchedule", patientID);
+        MyRequest myRequest = new MyRequest("getAppointmentSchedule", patientID);
         myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
-        System.out.println("FE Implementation:getBookingSchedule>>>" + myRequest.toString());
+        System.out.println("FE Implementation:getAppointmentSchedule>>>" + myRequest.toString());
         return validateResponses(myRequest);
     }
 

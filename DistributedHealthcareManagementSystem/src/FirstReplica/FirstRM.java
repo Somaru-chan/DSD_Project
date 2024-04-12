@@ -337,7 +337,7 @@ public class FirstRM {
                 String response = serviceInterface.bookAppointment(input.userID, input.newAppointmentID, input.newAppointmentType);
                 System.out.println(response);
                 return response;
-            } else if (input.Function.equalsIgnoreCase("getBookingSchedule")) {
+            } else if (input.Function.equalsIgnoreCase("getAppointmentSchedule")) {
                 String response = serviceInterface.getAppointmentSchedule(input.userID);
                 System.out.println(response);
                 return response;
