@@ -234,7 +234,7 @@ public class Client {
     }
 
     private static void admin(String appointmentAdminID) throws Exception {
-        String branchCode = serverBranch(userInput.nextLine().trim());
+        String branchCode = serverBranch(appointmentAdminID);
         if (branchCode == "Null") {
             System.out.println("Invalid branch! Please re-enter a valid user ID");
             return;
@@ -246,8 +246,6 @@ public class Client {
 //        System.out.println(qName);
         Service service = Service.create(url, qName);
         IFEServices userService = service.getPort(IFEServices.class);
-
-        System.out.println("The admin reaches this point");
 
         boolean repeat = true;
         printMenu(USER_TYPE_ADMIN);
