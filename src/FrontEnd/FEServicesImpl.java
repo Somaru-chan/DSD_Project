@@ -7,7 +7,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-@WebService(endpointInterface = "service.IFEServices")
+@WebService(endpointInterface = "FrontEnd.IFEServices")
 public class FEServicesImpl implements IFEServices {
     private static long DYNAMIC_TIMEOUT = 10000;
     private static int Rm1BugCount = 0;
