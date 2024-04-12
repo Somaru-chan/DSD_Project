@@ -3,7 +3,6 @@ package FrontEnd;
 import javax.jws.WebService;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -98,20 +97,17 @@ public class FEServicesImpl implements IFEServices {
     }
 
     @Override
-    public void shutdown(){
-        String status;
+    public void shutdown() {
         new Thread(new Runnable() {
             public void run() {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
-                    // ignored
+                    e.printStackTrace();
                 }
                 System.exit(1);
             }
         });
-//        status = "Shutting down";
-//        return status;
     }
 
     private int sendUdpUnicastToSequencer(MyRequest myRequest) {
