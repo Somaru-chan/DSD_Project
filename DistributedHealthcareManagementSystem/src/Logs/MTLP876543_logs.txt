@@ -1,0 +1,6 @@
+Request type: Remove appointment | Resonse: appointmentType:DENTAL appointmentID:MTLA404040 has been removed
+Request type: Book an appointment | Response: Booking request has been approved --> appointmentType:Dental appointmentID:MTLA808080
+Request type: Book an appointment | Response: This appointment has already been booked --> appointmentType:Dental appointmentID:MTLA808080
+Request type: Book an appointment | Response: This appointment has already been booked --> appointmentType:Dental appointmentID:MTLA808080
+Request type: Book an appointment | Response: This appointment has already been booked --> appointmentType:Dental appointmentID:MTLA808080
+Request type: Book an appointment | Response: Booking request has been approved --> appointmentType:Dental appointmentID:MTLA808080

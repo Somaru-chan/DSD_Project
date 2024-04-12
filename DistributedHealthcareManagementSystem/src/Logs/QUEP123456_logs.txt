@@ -1,0 +1,1 @@
+Request type: Book an appointment | Response: Booking request has been approved --> appointmentType:Dental appointmentID:QUEA150624
