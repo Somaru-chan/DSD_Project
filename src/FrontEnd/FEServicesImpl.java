@@ -22,9 +22,6 @@ public class FEServicesImpl implements IFEServices {
     private IFrontEnd inter;
     private final List<RmResponse> responses = new ArrayList<>();
 
-    public FEServicesImpl() {
-    }
-
     public FEServicesImpl(IFrontEnd inter) {
         super();
         this.inter = inter;

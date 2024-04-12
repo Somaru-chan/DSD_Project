@@ -23,7 +23,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * This class implements the web interface
  */
 
-@WebService(endpointInterface = "FirstReplica.Service.WebInterface")
+@WebService(endpointInterface = "Implementation.WebInterface")
 //@SOAPBinding(style = SOAPBinding.Style.RPC)
 
 public class ServerImplementation implements WebInterface {

@@ -57,7 +57,7 @@ public class Client {
     public static void runTest() throws Exception {
 
         URL montrealURL = new URL("http://localhost:6231/montreal?wsdl");
-        QName montrealQName = new QName("http://Service/", "ServerImplementationService");
+        QName montrealQName = new QName("http://Implementation/", "ServerImplementationService");
         montrealSer = Service.create(montrealURL, montrealQName);
         IFEServices ifeServices = montrealSer.getPort(IFEServices.class);
 
