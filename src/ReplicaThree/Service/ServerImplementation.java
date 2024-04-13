@@ -3,7 +3,6 @@ package ReplicaThree.Service;
 import ReplicaThree.CommonOutput;
 import ReplicaThree.Database.AppointData;
 import ReplicaThree.Database.PatientData;
-import ReplicaThree.Service.WebInterface;
 
 import javax.jws.WebService;
 import java.io.FileWriter;
@@ -82,7 +81,7 @@ public class ServerImplementation implements WebInterface {
         return result;
 
     }
-    
+
     /**
      * Add Appointments function by admins
      */
@@ -257,7 +256,7 @@ public class ServerImplementation implements WebInterface {
      */
 
     public String listAppointmentAvailability( String appointmentType) {
-        List<String> allEventIDsWithCapacity = new ArrayList<>();
+        List<String> allAppointmentIDsWithCapacity = new ArrayList<>();
         String firstResponse="", secondResponse="";
         List<String> firstServer;
         List<String> secondServer;
@@ -265,7 +264,7 @@ public class ServerImplementation implements WebInterface {
         {
             for ( Map.Entry<String, AppointData> entry : appointmentsMap.get(appointmentType.toUpperCase().trim()).entrySet())
             {
-                allEventIDsWithCapacity.add(entry.getKey() + " " + entry.getValue().bookingCapacity);
+                allAppointmentIDsWithCapacity.add(entry.getKey() + " " + entry.getValue().bookingCapacity);
             }
         }
         if(serverName.trim().equals("QUE"))
@@ -286,18 +285,18 @@ public class ServerImplementation implements WebInterface {
         }
         firstServer = Arrays.asList(firstResponse.split("@"));
         secondServer = Arrays.asList(secondResponse.split("@"));
-        allEventIDsWithCapacity.addAll(firstServer);
-        allEventIDsWithCapacity.addAll(secondServer);
-        return CommonOutput.listAppointmentAvailabilityOutput(true, allEventIDsWithCapacity, null);
+        allAppointmentIDsWithCapacity.addAll(firstServer);
+        allAppointmentIDsWithCapacity.addAll(secondServer);
+        return CommonOutput.listAppointmentAvailabilityOutput(true, allAppointmentIDsWithCapacity, null);
     }
 
-    public String listAppointments( String eventType)
+    public String listAppointments( String appointmentType)
     {
         String response = "";
 
-        if(appointmentsMap.containsKey(eventType.toUpperCase().trim()))
+        if(appointmentsMap.containsKey(appointmentType.toUpperCase().trim()))
         {
-            for ( ConcurrentHashMap.Entry<String, AppointData> entry : appointmentsMap.get(eventType).entrySet())
+            for ( ConcurrentHashMap.Entry<String, AppointData> entry : appointmentsMap.get(appointmentType).entrySet())
             {
                 response += entry.getKey() + " " + entry.getValue().bookingCapacity+"@";
             }
@@ -618,7 +617,7 @@ public class ServerImplementation implements WebInterface {
         else
             return CommonOutput.getAppointmentScheduleOutput(true, new HashMap<>(), null);
     }
-    
+
 
     /**
      * Function to Cancel Appointments
@@ -679,10 +678,10 @@ public class ServerImplementation implements WebInterface {
                     e.printStackTrace();
                 }
             }
-            return "appointment for patient cancelled";
+            return CommonOutput.cancelAppointmentOutput(true, null);
         }
         else
-            return "No record for this appointment";
+            return CommonOutput.cancelAppointmentOutput(false, CommonOutput.cancelAppointment_fail_no_such_appointment);
     }
 
     public String cancelPatientAppointment(String appointmentID, String appointmentType) {

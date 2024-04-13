@@ -128,7 +128,7 @@ public class FirstRM {
                             serversFlag = false;
                             //reboot Monteal Server
                             URL montrealURL = new URL("http://localhost:6131/montreal?wsdl");
-                            QName montrealQName = new QName("http://Implementation/", "ServerImplementationService");
+                            QName montrealQName = new QName("http://Service.ReplicaOne/", "ServerImplementationService");
                             montrealSer = Service.create(montrealURL, montrealQName);
                             WebInterface MTL_Object = montrealSer.getPort(WebInterface.class);
                             MTL_Object.shutdown();
@@ -136,7 +136,7 @@ public class FirstRM {
 
                             //reboot Quebec Server
                             URL quebecURL = new URL("http://localhost:6130/quebec?wsdl");
-                            QName quebecQName = new QName("http://Implementation/", "ServerImplementationService");
+                            QName quebecQName = new QName("http://Service.ReplicaOne/", "ServerImplementationService");
                             quebecSer = Service.create(quebecURL, quebecQName);
                             WebInterface QUE_Object = quebecSer.getPort(WebInterface.class);
                             QUE_Object.shutdown();
@@ -144,7 +144,7 @@ public class FirstRM {
 
                             //reboot Sherbrooke Server
                             URL sherbrookeURL = new URL("http://localhost:6129/sherbrooke?wsdl");
-                            QName sherbrookeQName = new QName("http://Implementation//", "ServerImplementationService");
+                            QName sherbrookeQName = new QName("http://Service.ReplicaOne/", "ServerImplementationService");
                             sherbrookeSer = Service.create(sherbrookeURL, sherbrookeQName);
                             WebInterface SHE_Object = sherbrookeSer.getPort(WebInterface.class);
                             SHE_Object.shutdown();
@@ -236,9 +236,7 @@ public class FirstRM {
         try {
             socket = new DatagramSocket();
             byte[] data = message.toString().getBytes();
-            //TODO: replace 230.1.1.10 with another multicast address that works
             InetAddress aHost = InetAddress.getByName("230.1.1.10");
-//            InetAddress aHost = InetAddress.getByName("236.22.9.30");
 
             DatagramPacket request = new DatagramPacket(data, data.length, aHost, port);
             socket.send(request);
@@ -281,8 +279,11 @@ public class FirstRM {
                             messsageToFront(message.toString(), data.FrontIpAddress);
                             message_q.poll();
                         }
+//                    message_q.remove(data);
+//                    itr.remove();
                     }
                 }
+                message_q.clear();
             }
         }
     }
@@ -311,7 +312,7 @@ public class FirstRM {
         }
 
         URL serverURL = new URL("http://localhost:" + portNumber + "/" + serverBranch + "?wsdl");
-        QName serverQName = new QName("http://Implementation/", "ServerImplementationService");
+        QName serverQName = new QName("http://Service.ReplicaOne/", "ServerImplementationService");
         service = Service.create(serverURL, serverQName);
         serviceInterface = service.getPort(WebInterface.class);
 
@@ -395,6 +396,6 @@ public class FirstRM {
             if (entry.getValue().sequenceId >= lastSequenceID)
                 lastSequenceID = entry.getValue().sequenceId + 1;
         }
-        message_q.clear();
+//        message_q.clear();
     }
 }

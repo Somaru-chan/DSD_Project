@@ -1,6 +1,6 @@
 package Client;
 
-import Implementation.WebInterface;
+import FrontEnd.FEServicesImpl;
 import FrontEnd.IFEServices;
 
 import javax.xml.namespace.QName;
@@ -56,10 +56,12 @@ public class Client {
 
     public static void runTest() throws Exception {
 
-        URL montrealURL = new URL("http://localhost:6231/montreal?wsdl");
-        QName montrealQName = new QName("http://Implementation/", "ServerImplementationService");
-        montrealSer = Service.create(montrealURL, montrealQName);
-        IFEServices ifeServices = montrealSer.getPort(IFEServices.class);
+        URL url = new URL("http://localhost:9004/fe/?wsdl");
+//            System.out.println(url);
+        QName qName = new QName("http://FrontEnd/", "FEServicesImplService");
+//            System.out.println(qName);
+        Service service = Service.create(url, qName);
+        IFEServices ifeServices = service.getPort(IFEServices.class);
 
         Runnable addApp1 = () -> {
             String response = ifeServices.addAppointment("MTLA404040", "MTLA808080", "Dental", 5);

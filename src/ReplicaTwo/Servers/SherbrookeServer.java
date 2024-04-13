@@ -1,6 +1,6 @@
 package ReplicaTwo.Servers;
 
-import Implementation.ServerImplementation ;
+import ReplicaTwo.Service.ServerImplementation;
 
 import javax.xml.ws.Endpoint;
 import java.io.IOException;

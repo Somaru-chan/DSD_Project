@@ -1,6 +1,7 @@
 package ReplicaOne.Servers;
 
-import Implementation.ServerImplementation ;
+import ReplicaOne.Service.ServerImplementation;
+
 import javax.xml.ws.Endpoint;
 import java.io.IOException;
 import java.net.DatagramPacket;

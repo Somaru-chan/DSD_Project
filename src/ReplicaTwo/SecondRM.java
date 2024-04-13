@@ -120,7 +120,7 @@ public class SecondRM {
                             serversFlag = false;
                             //reboot Monteal Server
                             URL montrealURL = new URL("http://localhost:6231/montreal?wsdl");
-                            QName montrealQName = new QName("http://Implementation/", "ServerImplementationService");
+                            QName montrealQName = new QName("http://Service.ReplicaTwo/", "ServerImplementationService");
                             montrealSer = Service.create(montrealURL, montrealQName);
                             WebInterface MTL_Object = montrealSer.getPort(WebInterface.class);
                             MTL_Object.shutdown();
@@ -128,7 +128,7 @@ public class SecondRM {
 
                             //reboot Quebec Server
                             URL quebecURL = new URL("http://localhost:6230/quebec?wsdl");
-                            QName quebecQName = new QName("http://Implementation/", "ServerImplementationService");
+                            QName quebecQName = new QName("http://Service.ReplicaTwo/", "ServerImplementationService");
                             quebecSer = Service.create(quebecURL, quebecQName);
                             WebInterface QUE_Object = quebecSer.getPort(WebInterface.class);
                             QUE_Object.shutdown();
@@ -136,7 +136,7 @@ public class SecondRM {
 
                             //reboot Sherbrooke Server
                             URL sherbrookeURL = new URL("http://localhost:6229/sherbrooke?wsdl");
-                            QName sherbrookeQName = new QName("http://Implementation/", "ServerImplementationService");
+                            QName sherbrookeQName = new QName("http://Service.ReplicaTwo/", "ServerImplementationService");
                             sherbrookeSer = Service.create(sherbrookeURL, sherbrookeQName);
                             WebInterface SHE_Object = sherbrookeSer.getPort(WebInterface.class);
                             SHE_Object.shutdown();
@@ -251,15 +251,17 @@ public class SecondRM {
                     System.out.println("RM2 is executing message request. Detail:" + data);
                     //when the servers are down serversFlag is False therefore, no execution untill all servers are up.
                     if (data.sequenceId == lastSequenceID && serversFlag) {
+//                        System.out.println("RM2 reached last sequenceID. Detail:" + data);
                         System.out.println("RM2 is executing message request. Detail:" + data);
-                        requestToServers(data);
-                        Message message = new Message(data.sequenceId, "Null", "RM2",
+                        String response = requestToServers(data);
+                        Message message = new Message(data.sequenceId, response, "RM2",
                                 data.Function, data.userID, data.newAppointmentID,
                                 data.newAppointmentType, data.oldAppointmentID,
                                 data.oldAppointmentType, data.bookingCapacity);
                         lastSequenceID += 1;
                         messsageToFront(message.toString(), data.FrontIpAddress);
-                        message_q.poll();
+                        message_q.remove();
+                        System.out.println("Message removed");
                     }
                 }
             }
@@ -290,7 +292,7 @@ public class SecondRM {
         }
 
         URL serverURL = new URL("http://localhost:" + portNumber + "/" + serverBranch + "?wsdl");
-        QName serverQName = new QName("http://Implementation/", "ServerImplementationService");
+        QName serverQName = new QName("http://Service.ReplicaTwo/", "ServerImplementationService");
         service = Service.create(serverURL, serverQName);
         serviceInterface = service.getPort(WebInterface.class);
 
