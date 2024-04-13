@@ -246,7 +246,7 @@ public class ThirdRM {
         while (true) {
             synchronized (ThirdRM.class) {
                 Iterator<Message> itr = message_q.iterator();
-                while (itr.hasNext()) {
+                while (itr.hasNext() && !message_q.contains(itr.next())) {
                     Message data = itr.next();
                     System.out.println("RM3 is executing message request. Detail:" + data);
                     //when the servers are down serversFlag is False therefore, no execution untill all servers are up.
