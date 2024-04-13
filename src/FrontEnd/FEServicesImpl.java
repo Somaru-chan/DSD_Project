@@ -346,6 +346,7 @@ public class FEServicesImpl implements IFEServices {
     }
 
     private void notifyOKCommandReceived() {
+        latch = new CountDownLatch(3);
         latch.countDown();
         System.out.println("FE Implementation:notifyOKCommandReceived>>>Response Received: Remaining responses" + latch.getCount());
     }
