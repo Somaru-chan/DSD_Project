@@ -128,7 +128,7 @@ public class FirstRM {
                             serversFlag = false;
                             //reboot Monteal Server
                             URL montrealURL = new URL("http://localhost:6131/montreal?wsdl");
-                            QName montrealQName = new QName("http://ReplicaOne/", "ServerImplementationService");
+                            QName montrealQName = new QName("http://Implementation/", "ServerImplementationService");
                             montrealSer = Service.create(montrealURL, montrealQName);
                             WebInterface MTL_Object = montrealSer.getPort(WebInterface.class);
                             MTL_Object.shutdown();
@@ -136,7 +136,7 @@ public class FirstRM {
 
                             //reboot Quebec Server
                             URL quebecURL = new URL("http://localhost:6130/quebec?wsdl");
-                            QName quebecQName = new QName("http://ReplicaOne/", "ServerImplementationService");
+                            QName quebecQName = new QName("http://Implementation/", "ServerImplementationService");
                             quebecSer = Service.create(quebecURL, quebecQName);
                             WebInterface QUE_Object = quebecSer.getPort(WebInterface.class);
                             QUE_Object.shutdown();
@@ -144,7 +144,7 @@ public class FirstRM {
 
                             //reboot Sherbrooke Server
                             URL sherbrookeURL = new URL("http://localhost:6129/sherbrooke?wsdl");
-                            QName sherbrookeQName = new QName("http://ReplicaOne/", "ServerImplementationService");
+                            QName sherbrookeQName = new QName("http://Implementation//", "ServerImplementationService");
                             sherbrookeSer = Service.create(sherbrookeURL, sherbrookeQName);
                             WebInterface SHE_Object = sherbrookeSer.getPort(WebInterface.class);
                             SHE_Object.shutdown();
@@ -311,7 +311,7 @@ public class FirstRM {
         }
 
         URL serverURL = new URL("http://localhost:" + portNumber + "/" + serverBranch + "?wsdl");
-        QName serverQName = new QName("http://Service/", "ServerImplementationService");
+        QName serverQName = new QName("http://Implementation/", "ServerImplementationService");
         service = Service.create(serverURL, serverQName);
         serviceInterface = service.getPort(WebInterface.class);
 
