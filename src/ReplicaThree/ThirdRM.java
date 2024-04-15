@@ -18,10 +18,15 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ThirdRM {
     static Service montrealSer, quebecSer, sherbrookeSer;
+
+    private static final String Bug_ID = "MTLA888888";
+    private static final String Crash_ID = "MTLA999999";
     public static int lastSequenceID = 1;
     public static ConcurrentHashMap<Integer, Message> message_list = new ConcurrentHashMap<>();
     public static Queue<Message> message_q = new ConcurrentLinkedQueue<Message>();
     private static boolean serversFlag = true;
+
+    private static boolean BugFlag = true;
 
     public static void main(String[] args) throws Exception {
         Run();
@@ -84,6 +89,7 @@ public class ThirdRM {
                 System.out.println("RM3 received a message. Detail:" + data);
                 if (parts[2].equalsIgnoreCase("00")) {
                     Message message = message_obj_create(data);
+                    if (!message.userID.equalsIgnoreCase(Crash_ID)) {
                     Message message_To_RMs = message_obj_create(data);
                     message_To_RMs.MessageType = "01";
                     send_multicast_toRM(message_To_RMs);
@@ -96,6 +102,7 @@ public class ThirdRM {
                     System.out.println("is adding queue:" + message);
                     message_q.add(message);
                     message_list.put(message.sequenceId, message);
+                    }
                 } else if (parts[2].equalsIgnoreCase("01")) {
                     Message message = message_obj_create(data);
                     if (!message_list.contains(message.sequenceId))
@@ -201,7 +208,8 @@ public class ThirdRM {
             }
         }
         // Remove the last @ character
-        if (list.length() > 2)
+        //if (list.length() > 2)
+        if (list.endsWith("@"))
             list.substring(list.length() - 1);
         Message message = new Message(0, list, "03", begin.toString(), end.toString(), RmNumber, "Null", "Null", "Null", 0);
         System.out.println("RM3 sending its list of messages for initialization. list of messages:" + list);
@@ -228,9 +236,7 @@ public class ThirdRM {
         try {
             socket = new DatagramSocket();
             byte[] data = message.toString().getBytes();
-            //TODO: replace 230.1.1.10 with another multicast address that works
             InetAddress aHost = InetAddress.getByName("230.1.1.10");
-//            InetAddress aHost = InetAddress.getByName("236.22.9.30");
 
             DatagramPacket request = new DatagramPacket(data, data.length, aHost, port);
             socket.send(request);
@@ -246,22 +252,39 @@ public class ThirdRM {
         while (true) {
             synchronized (ThirdRM.class) {
                 Iterator<Message> itr = message_q.iterator();
-                while (itr.hasNext() && !message_q.contains(itr.next())) {
+                // && !message_q.contains(itr.next())
+                while (itr.hasNext()) {
                     Message data = itr.next();
                     System.out.println("RM3 is executing message request. Detail:" + data);
                     //when the servers are down serversFlag is False therefore, no execution untill all servers are up.
                     if (data.sequenceId == lastSequenceID && serversFlag) {
-                        System.out.println("RM3 is executing message request. Detail:" + data);
-                        requestToServers(data);
-                        Message message = new Message(data.sequenceId, "Null", "RM3",
-                                data.Function, data.userID, data.newAppointmentID,
-                                data.newAppointmentType, data.oldAppointmentID,
-                                data.oldAppointmentType, data.bookingCapacity);
-                        lastSequenceID += 1;
-                        messsageToFront(message.toString(), data.FrontIpAddress);
-                        message_q.poll();
+                        if (data.userID.equalsIgnoreCase(Bug_ID) && BugFlag == true) {
+                            System.out.println("RM3 is executing message request. Detail:" + data);
+                            requestToServers(data);
+                            Message bug_message = new Message(data.sequenceId, "Null", "RM3",
+                                    data.Function, data.userID, data.newAppointmentID,
+                                    data.newAppointmentType, data.oldAppointmentID,
+                                    data.oldAppointmentType, data.bookingCapacity);
+                            //bug_counter += 1;
+                            lastSequenceID += 1;
+                            messsageToFront(bug_message.toString(), data.FrontIpAddress);
+                            message_q.poll();
+                            } else {
+                            System.out.println("RM2 is executing message request. Detail:" + data);
+                            String response = requestToServers(data);
+                            Message message = new Message(data.sequenceId, response, "RM2",
+                                    data.Function, data.userID, data.newAppointmentID,
+                                    data.newAppointmentType, data.oldAppointmentID,
+                                    data.oldAppointmentType, data.bookingCapacity);
+                            lastSequenceID += 1;
+                            messsageToFront(message.toString(), data.FrontIpAddress);
+                            message_q.poll();
+                        }
+//                    message_q.remove(data);
+//                    itr.remove();
                     }
                 }
+                message_q.clear();
             }
         }
     }
