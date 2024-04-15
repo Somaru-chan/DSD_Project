@@ -10,6 +10,7 @@ public class Sequencer {
     static {
         try {
             sequencerIP = InetAddress.getLocalHost().getHostAddress();
+            System.out.println(sequencerIP);
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         }

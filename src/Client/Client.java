@@ -36,8 +36,6 @@ public class Client {
 
     static Scanner userInput = new Scanner(System.in);
 
-    //TODO: add concurrency to test
-
     public static void main(String[] args) {
 
         try {

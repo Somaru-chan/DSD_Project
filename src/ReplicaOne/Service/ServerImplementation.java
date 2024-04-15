@@ -967,11 +967,11 @@ public class ServerImplementation implements WebInterface {
         DateFormat dateFormat = new SimpleDateFormat(strDateFormat);
         String formattedDate= dateFormat.format(date);
 
-        FileWriter fileWriter = new FileWriter(getDirectory(city.trim().toUpperCase(), "Servers"),true);
-        PrintWriter printWriter = new PrintWriter(fileWriter);
-        printWriter.println("DATE: "+formattedDate+"| Request type: "+operation+" | Request parameters: "+ peram +" | Request result: "+requestResult+" | com.Servers response: "+ response);
-
-        printWriter.close();
+//        FileWriter fileWriter = new FileWriter(getDirectory(city.trim().toUpperCase(), "Servers"),true);
+//        PrintWriter printWriter = new PrintWriter(fileWriter);
+//        printWriter.println("DATE: "+formattedDate+"| Request type: "+operation+" | Request parameters: "+ peram +" | Request result: "+requestResult+" | com.Servers response: "+ response);
+//
+//        printWriter.close();
 
     }
 
