@@ -1,11 +1,10 @@
 package Client;
 
-import FrontEnd.FEServicesImpl;
+import FrontEnd.FrontEnd;
 import FrontEnd.IFEServices;
 
 import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
-import java.lang.invoke.SwitchPoint;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
@@ -56,10 +55,9 @@ public class Client {
 
     public static void runTest() throws Exception {
 
-        URL url = new URL("http://localhost:9004/fe/?wsdl");
-//            System.out.println(url);
+        URL url = new URL("http://" + FrontEnd.FE_IP_Address + ":9004/fe/?wsdl");
+        System.out.println(url);
         QName qName = new QName("http://FrontEnd/", "FEServicesImplService");
-//            System.out.println(qName);
         Service service = Service.create(url, qName);
         IFEServices ifeServices = service.getPort(IFEServices.class);
 
@@ -115,7 +113,7 @@ public class Client {
             System.out.println("Please enter a valid ID");
             Run();
         } else {
-            URL url = new URL("http://localhost:9004/fe/?wsdl");
+            URL url = new URL("http://" + FrontEnd.FE_IP_Address + ":9004/fe/?wsdl");
 //            System.out.println(url);
             QName qName = new QName("http://FrontEnd/", "FEServicesImplService");
 //            System.out.println(qName);
@@ -166,7 +164,7 @@ public class Client {
             return;
         }
 
-        URL url = new URL("http://localhost:9004/fe/?wsdl");
+        URL url = new URL("http://" + FrontEnd.FE_IP_Address + ":9004/fe/?wsdl");
 //        System.out.println(url);
         QName qName = new QName("http://FrontEnd/", "FEServicesImplService");
 //        System.out.println(qName);
@@ -238,7 +236,7 @@ public class Client {
             return;
         }
 
-        URL url = new URL("http://localhost:9004/fe/?wsdl");
+        URL url = new URL("http://" + FrontEnd.FE_IP_Address + ":9004/fe/?wsdl");
 //        System.out.println(url);
         QName qName = new QName("http://FrontEnd/", "FEServicesImplService");
 //        System.out.println(qName);
