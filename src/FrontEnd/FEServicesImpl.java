@@ -17,9 +17,9 @@ public class FEServicesImpl implements IFEServices {
     private static int Rm3NoResponseCount = 0;
     private long responseTime = DYNAMIC_TIMEOUT;
     private long startTime;
-    private CountDownLatch latch;
+    private static CountDownLatch latch;
     private IFrontEnd inter;
-    private final List<RmResponse> responses = new ArrayList<>();
+    private final static List<RmResponse> responses = new ArrayList<>();
 
     public FEServicesImpl(IFrontEnd inter) {
         super();
@@ -34,6 +34,7 @@ public class FEServicesImpl implements IFEServices {
         myRequest.setBookingCapacity(capacity);
         myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
         System.out.println("FE Implementation:addAppointment>>>" + myRequest.toString());
+        System.out.println(responses.size());
         return validateResponses(myRequest);
     }
 
@@ -50,6 +51,7 @@ public class FEServicesImpl implements IFEServices {
     @Override
     public synchronized String listAppointmentAvailability(String adminID, String appointmentType) {
         MyRequest myRequest = new MyRequest("listAppointmentAvailability", adminID);
+        myRequest.setPatientID(adminID);
         myRequest.setAppointmentType(appointmentType);
         myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
         System.out.println("FE Implementation:listAppointmentAvailability>>>" + myRequest.toString());
@@ -61,6 +63,7 @@ public class FEServicesImpl implements IFEServices {
         MyRequest myRequest = new MyRequest("bookAppointment", patientID);
         myRequest.setAppointmentID(appointmentID);
         myRequest.setAppointmentType(appointmentType);
+        myRequest.setPatientID(patientID);
         myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
         System.out.println("FE Implementation:bookAppointment>>>" + myRequest.toString());
         return validateResponses(myRequest);
@@ -69,6 +72,7 @@ public class FEServicesImpl implements IFEServices {
     @Override
     public synchronized String getAppointmentSchedule(String patientID) {
         MyRequest myRequest = new MyRequest("getAppointmentSchedule", patientID);
+        myRequest.setPatientID(patientID);
         myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
         System.out.println("FE Implementation:getAppointmentSchedule>>>" + myRequest.toString());
         return validateResponses(myRequest);
@@ -77,6 +81,7 @@ public class FEServicesImpl implements IFEServices {
     @Override
     public synchronized String cancelAppointment(String patientID, String appointmentID, String appointmentType) {
         MyRequest myRequest = new MyRequest("cancelAppointment", patientID);
+        myRequest.setPatientID(patientID);
         myRequest.setAppointmentID(appointmentID);
         myRequest.setAppointmentType(appointmentType);
         myRequest.setSequenceNumber(sendUdpUnicastToSequencer(myRequest));
@@ -87,6 +92,7 @@ public class FEServicesImpl implements IFEServices {
     @Override
     public synchronized String swapAppointment(String patientID, String oldAppointmentID, String oldAppointmentType, String newAppointmentID, String newAppointmentType) {
         MyRequest myRequest = new MyRequest("swapAppointment", patientID);
+        myRequest.setPatientID(patientID);
         myRequest.setAppointmentID(newAppointmentID);
         myRequest.setAppointmentType(newAppointmentType);
         myRequest.setOldAppointmentID(oldAppointmentID);
@@ -345,8 +351,11 @@ public class FEServicesImpl implements IFEServices {
         notifyOKCommandReceived();
     }
 
+    public List<RmResponse> getResponses() {
+        return this.responses;
+    }
+
     private void notifyOKCommandReceived() {
-        latch = new CountDownLatch(3);
         latch.countDown();
         System.out.println("FE Implementation:notifyOKCommandReceived>>>Response Received: Remaining responses" + latch.getCount());
     }
