@@ -28,6 +28,18 @@ public class FrontEnd {
         }
     }
 
+    public static final String serverIP = "10.102.192.216";
+
+    /*public static final String serverIP;
+    static {
+        try {
+            serverIP = InetAddress.getLocalHost().getHostAddress();
+            System.out.println(serverIP);
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
+    }*/
+
     public static void main(String[] args) {
         try {
             IFrontEnd inter = new IFrontEnd() {

@@ -1,5 +1,6 @@
 package ReplicaTwo.Servers;
 
+import FrontEnd.FrontEnd;
 import ReplicaTwo.Service.ServerImplementation;
 
 import javax.xml.ws.Endpoint;
@@ -8,16 +9,16 @@ import java.net.*;
 
 public class MontrealServer {
 
-    public static final String serverIP;
+    public static final String serverIP = FrontEnd.serverIP;;
 
-    static {
+    /*static {
         try {
             serverIP = InetAddress.getLocalHost().getHostAddress();
             System.out.println(serverIP);
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
     public static void main(String args[]) throws Exception {
 

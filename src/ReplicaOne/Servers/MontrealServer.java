@@ -1,5 +1,6 @@
 package ReplicaOne.Servers;
 
+import FrontEnd.FrontEnd;
 import ReplicaOne.Service.ServerImplementation;
 
 import javax.xml.ws.Endpoint;
@@ -8,8 +9,9 @@ import java.net.*;
 
 public class MontrealServer {
 
-    public static final String serverIP;
+    public static final String serverIP = "10.102.192.216";
 
+    /*public static final String serverIP;
     static {
         try {
             serverIP = InetAddress.getLocalHost().getHostAddress();
@@ -17,7 +19,7 @@ public class MontrealServer {
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
     public static void main(String args[]) throws Exception {
 

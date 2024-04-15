@@ -5,8 +5,8 @@ import java.net.*;
 
 public class Sequencer {
     public static int sequencerId = 0;
-    // private static final String sequencerIP = "192.168.2.17";
-	public static final String sequencerIP;
+    public static final String sequencerIP = "10.102.192.217";
+	/*public static final String sequencerIP;
     static {
         try {
             sequencerIP = InetAddress.getLocalHost().getHostAddress();
@@ -14,7 +14,7 @@ public class Sequencer {
         } catch (UnknownHostException e) {
             throw new RuntimeException(e);
         }
-    }
+    }*/
 
     public static void main(String[] args) {
         DatagramSocket aSocket = null;
