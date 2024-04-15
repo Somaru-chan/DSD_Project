@@ -125,7 +125,7 @@ public class ThirdRM {
                             //suspend the execution of messages untill all servers are up. (serversFlag=false)
                             serversFlag = false;
                             //reboot Monteal Server
-                            URL montrealURL = new URL("http://localhost:6331/montreal?wsdl");
+                            URL montrealURL = new URL("http://" + MontrealServer.serverIP + ":6331/montreal?wsdl");
                             QName montrealQName = new QName("http://Service.ReplicaThree/", "ServerImplementationService");
                             montrealSer = Service.create(montrealURL, montrealQName);
                             WebInterface MTL_Object = montrealSer.getPort(WebInterface.class);
@@ -133,7 +133,7 @@ public class ThirdRM {
                             System.out.println("RM3 shutdown Montreal Server");
 
                             //reboot Quebec Server
-                            URL quebecURL = new URL("http://localhost:6330/quebec?wsdl");
+                            URL quebecURL = new URL("http://" + QuebecServer.serverIP + ":6330/quebec?wsdl");
                             QName quebecQName = new QName("http://Service.ReplicaThree/", "ServerImplementationService");
                             quebecSer = Service.create(quebecURL, quebecQName);
                             WebInterface QUE_Object = quebecSer.getPort(WebInterface.class);
@@ -141,7 +141,7 @@ public class ThirdRM {
                             System.out.println("RM1 shutdown Quebec Server");
 
                             //reboot Sherbrooke Server
-                            URL sherbrookeURL = new URL("http://localhost:6329/sherbrooke?wsdl");
+                            URL sherbrookeURL = new URL("http://" + SherbrookeServer.serverIP + ":6329/sherbrooke?wsdl");
                             QName sherbrookeQName = new QName("http://Service.ReplicaThree/", "ServerImplementationService");
                             sherbrookeSer = Service.create(sherbrookeURL, sherbrookeQName);
                             WebInterface SHE_Object = sherbrookeSer.getPort(WebInterface.class);
@@ -311,7 +311,7 @@ public class ThirdRM {
                 break;
         }
 
-        URL serverURL = new URL("http://localhost:" + portNumber + "/" + serverBranch + "?wsdl");
+        URL serverURL = new URL("http://" + MontrealServer.serverIP + ":" + portNumber + "/" + serverBranch + "?wsdl");
         QName serverQName = new QName("http://Service.ReplicaThree/", "ServerImplementationService");
         service = Service.create(serverURL, serverQName);
         serviceInterface = service.getPort(WebInterface.class);

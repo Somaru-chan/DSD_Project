@@ -135,7 +135,7 @@ public class FirstRM {
                             System.out.println("RM1 shutdown Montreal Server");
 
                             //reboot Quebec Server
-                            URL quebecURL = new URL("http://" + QuebecServer.serverIP + " :6130/quebec?wsdl");
+                            URL quebecURL = new URL("http://" + QuebecServer.serverIP + ":6130/quebec?wsdl");
                             QName quebecQName = new QName("http://Service.ReplicaOne/", "ServerImplementationService");
                             quebecSer = Service.create(quebecURL, quebecQName);
                             WebInterface QUE_Object = quebecSer.getPort(WebInterface.class);
@@ -311,7 +311,7 @@ public class FirstRM {
                 break;
         }
 
-        URL serverURL = new URL("http://localhost:" + portNumber + "/" + serverBranch + "?wsdl");
+        URL serverURL = new URL("http://" + MontrealServer.serverIP + ":" + portNumber + "/" + serverBranch + "?wsdl");
         QName serverQName = new QName("http://Service.ReplicaOne/", "ServerImplementationService");
         service = Service.create(serverURL, serverQName);
         serviceInterface = service.getPort(WebInterface.class);

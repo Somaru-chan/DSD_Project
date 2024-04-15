@@ -1,22 +1,32 @@
 package FrontEnd;
 
+import Sequencer.Sequencer;
+
 import javax.xml.ws.Endpoint;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
 
 public class FrontEnd {
     private static final int sequencerPort = 1333;
     //    private static final String sequencerIP = "192.168.2.17";
-    private static final String sequencerIP = "localhost";
+    private static final String sequencerIP = Sequencer.sequencerIP;
     private static final String RM_Multicast_group_address = "230.1.1.10";
     private static final int FE_SQ_PORT = 1414;
     private static final int FE_PORT = 1999;
     private static final int RM_Multicast_Port = 1234;
     //    public static String FE_IP_Address = "192.168.2.11";
-    public static String FE_IP_Address = "localhost";
+//    public static String FE_IP_Address = "localhost";
+
+    public static final String FE_IP_Address;
+
+    static {
+        try {
+            FE_IP_Address = InetAddress.getLocalHost().getHostAddress();
+            System.out.println(FE_IP_Address);
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static void main(String[] args) {
         try {
@@ -53,7 +63,7 @@ public class FrontEnd {
             Thread thread = new Thread(task);
             thread.start();
 
-            Endpoint endpoint = Endpoint.publish("http://localhost:9004/fe", new FEServicesImpl(inter));
+            Endpoint endpoint = Endpoint.publish("http://"+FE_IP_Address+":9004/fe", new FEServicesImpl(inter));
             System.out.println("FrontEnd Server is Up & Running" + endpoint.isPublished());
 
         } catch (Exception e) {

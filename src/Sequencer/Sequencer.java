@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.net.*;
 
 public class Sequencer {
-    private static int sequencerId = 0;
+    public static int sequencerId = 0;
     // private static final String sequencerIP = "192.168.2.17";
-	private static final String sequencerIP;
+	public static final String sequencerIP;
     static {
         try {
             sequencerIP = InetAddress.getLocalHost().getHostAddress();

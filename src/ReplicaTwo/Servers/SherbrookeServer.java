@@ -4,18 +4,27 @@ import ReplicaTwo.Service.ServerImplementation;
 
 import javax.xml.ws.Endpoint;
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketException;
+import java.net.*;
 
 public class SherbrookeServer {
+
+    public static final String serverIP;
+
+    static {
+        try {
+            serverIP = InetAddress.getLocalHost().getHostAddress();
+            System.out.println(serverIP);
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static void main(String args[]) throws Exception {
 
         try {
 
             ServerImplementation serverImpl = new ServerImplementation(6230, 6231, 6229, "SHE");
-            Endpoint ep = Endpoint.publish("http://localhost:6229/sherbrooke", serverImpl);
+            Endpoint ep = Endpoint.publish("http://" + serverIP + ":6229/sherbrooke", serverImpl);
             System.out.println("Service is successfully published: " + ep.isPublished());
 
             System.out.println("Sherbrooke Server Ready");
