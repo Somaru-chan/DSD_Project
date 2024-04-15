@@ -63,7 +63,9 @@ public class FrontEnd {
             Thread thread = new Thread(task);
             thread.start();
 
-            Endpoint endpoint = Endpoint.publish("http://"+FE_IP_Address+":9004/fe", new FEServicesImpl(inter));
+
+            Endpoint endpoint = Endpoint.publish("http://" + FE_IP_Address + ":9004/fe", new FEServicesImpl(inter));
+
             System.out.println("FrontEnd Server is Up & Running" + endpoint.isPublished());
 
         } catch (Exception e) {
