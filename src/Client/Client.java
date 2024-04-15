@@ -86,7 +86,6 @@ public class Client {
         };
 
 
-
         Thread thread1 = new Thread(addApp1);
         thread1.start();
         Thread.sleep(500);
@@ -115,7 +114,7 @@ public class Client {
         if (input.length() != 10) {
             System.out.println("Please enter a valid ID");
             Run();
-        } else{
+        } else {
             URL url = new URL("http://localhost:9004/fe/?wsdl");
 //            System.out.println(url);
             QName qName = new QName("http://FrontEnd/", "FEServicesImplService");
@@ -148,9 +147,7 @@ public class Client {
 
     private static int checkUserType(String userID) {
         if (userID.length() == 10) {
-            if (userID.substring(0, 3).equalsIgnoreCase("MTL") ||
-                    userID.substring(0, 3).equalsIgnoreCase("QUE") ||
-                    userID.substring(0, 3).equalsIgnoreCase("SHE")) {
+            if (userID.substring(0, 3).equalsIgnoreCase("MTL") || userID.substring(0, 3).equalsIgnoreCase("QUE") || userID.substring(0, 3).equalsIgnoreCase("SHE")) {
                 if (userID.substring(3, 4).equalsIgnoreCase("P")) {
                     return USER_TYPE_PATIENT;
                 } else if (userID.substring(3, 4).equalsIgnoreCase("A")) {
@@ -160,7 +157,6 @@ public class Client {
         }
         return 0;
     }
-
 
 
     private static void patient(String patientID) throws Exception {
@@ -185,54 +181,54 @@ public class Client {
         String serverResponse;
 
         switch (menuSelection) {
-                case PATIENT_BOOK_APPOINTMENT:
-                    appointmentType = promptForAppointmentType();
-                    appointmentID = promptForAppointmentID();
+            case PATIENT_BOOK_APPOINTMENT:
+                appointmentType = promptForAppointmentType();
+                appointmentID = promptForAppointmentID();
 //                    ClientLogger.clientLog(patientID, " attempting to bookAppointment");
-                    serverResponse = userService.bookAppointment(patientID, appointmentID, appointmentType);
-                    System.out.println(serverResponse);
+                serverResponse = userService.bookAppointment(patientID, appointmentID, appointmentType);
+                System.out.println(serverResponse);
 //                    ClientLogger.clientLog(patientID, " bookAppointment", " appointmentID: " + appointmentID + " appointmentType: " + appointmentType + " ", serverResponse);
-                    break;
-                case PATIENT_GET_APPOINTMENT_SCHEDULE:
+                break;
+            case PATIENT_GET_APPOINTMENT_SCHEDULE:
 //                    ClientLogger.clientLog(patientID, " attempting to getAppointmentSchedule");
-                    serverResponse = userService.getAppointmentSchedule(patientID);
-                    System.out.println(serverResponse);
+                serverResponse = userService.getAppointmentSchedule(patientID);
+                System.out.println(serverResponse);
 //                    ClientLogger.clientLog(patientID, " bookAppointment", " null ", serverResponse);
-                    break;
-                case PATIENT_CANCEL_APPOINTMENT:
-                    appointmentType = promptForAppointmentType();
-                    appointmentID = promptForAppointmentID();
+                break;
+            case PATIENT_CANCEL_APPOINTMENT:
+                appointmentType = promptForAppointmentType();
+                appointmentID = promptForAppointmentID();
 //                    ClientLogger.clientLog(patientID, " attempting to cancelAppointment");
-                    serverResponse = userService.cancelAppointment(patientID, appointmentID, appointmentType);
-                    System.out.println(serverResponse);
+                serverResponse = userService.cancelAppointment(patientID, appointmentID, appointmentType);
+                System.out.println(serverResponse);
 //                    ClientLogger.clientLog(patientID, " bookAppointment", " appointmentID: " + appointmentID + " appointmentType: " + appointmentType + " ", serverResponse);
-                    break;
-                case PATIENT_SWAP_APPOINTMENT:
-                    System.out.println("Please Enter the OLD appointment to be replaced");
-                    appointmentType = promptForAppointmentType();
-                    appointmentID = promptForAppointmentID();
-                    System.out.println("Please Enter the NEW appointment to be replaced");
-                    String newAppointmentType = promptForAppointmentType();
-                    String newAppointmentID = promptForAppointmentID();
+                break;
+            case PATIENT_SWAP_APPOINTMENT:
+                System.out.println("Please Enter the OLD appointment to be replaced");
+                appointmentType = promptForAppointmentType();
+                appointmentID = promptForAppointmentID();
+                System.out.println("Please Enter the NEW appointment to be replaced");
+                String newAppointmentType = promptForAppointmentType();
+                String newAppointmentID = promptForAppointmentID();
 //                    ClientLogger.clientLog(patientID, " attempting to swapAppointment");
-                    serverResponse = userService.swapAppointment(patientID, newAppointmentID, newAppointmentType, appointmentID, appointmentType);
-                    System.out.println(serverResponse);
+                serverResponse = userService.swapAppointment(patientID, newAppointmentID, newAppointmentType, appointmentID, appointmentType);
+                System.out.println(serverResponse);
 //                    ClientLogger.clientLog(patientID, " swapAppointment", " oldAppointmentID: " + appointmentID + " oldAppointmentType: " + appointmentType + " newAppointmentID: " + newAppointmentID + " newAppointmentType: " + newAppointmentType + " ", serverResponse);
-                    break;
-                case SHUTDOWN:
+                break;
+            case SHUTDOWN:
 //                    ClientLogger.clientLog(patientID, " attempting ORB shutdown");
-                    userService.shutdown();
+                userService.shutdown();
 //                    ClientLogger.clientLog(patientID, " shutdown");
-                    return;
-                case PATIENT_LOGOUT:
-                    repeat = false;
+                return;
+            case PATIENT_LOGOUT:
+                repeat = false;
 //                    ClientLogger.clientLog(patientID, " attempting to Logout");
-                    Run();
-                    break;
-            }
-            if (repeat) {
-                patient(patientID);
-            }
+                Run();
+                break;
+        }
+        if (repeat) {
+            patient(patientID);
+        }
     }
 
     private static void admin(String appointmentAdminID) throws Exception {
@@ -338,8 +334,8 @@ public class Client {
 
     private static String askForPatientIDFromAdmin(String branchCode) {
         System.out.println("Please enter a patientID(Within " + branchCode + " Server):");
-        String userID =userInput.next().trim().toUpperCase();
-        if (checkUserType(userID) != USER_TYPE_PATIENT|| !userID.substring(0, 3).equals(branchCode)) {
+        String userID = userInput.next().trim().toUpperCase();
+        if (checkUserType(userID) != USER_TYPE_PATIENT || !userID.substring(0, 3).equalsIgnoreCase(branchCode)) {
             return askForPatientIDFromAdmin(branchCode);
         } else {
             return userID;
@@ -367,7 +363,6 @@ public class Client {
             System.out.println("0. ShutDown");
         }
     }
-
 
 
     private static String promptForAppointmentType() {
