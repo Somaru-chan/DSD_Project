@@ -18,14 +18,13 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class ThirdRM {
     static Service montrealSer, quebecSer, sherbrookeSer;
-
     private static final String Bug_ID = "MTLA888888";
     private static final String Crash_ID = "MTLA999999";
     public static int lastSequenceID = 1;
+    public static int bug_counter = 0;
     public static ConcurrentHashMap<Integer, Message> message_list = new ConcurrentHashMap<>();
     public static Queue<Message> message_q = new ConcurrentLinkedQueue<Message>();
     private static boolean serversFlag = true;
-
     private static boolean BugFlag = true;
 
     public static void main(String[] args) throws Exception {
@@ -99,7 +98,7 @@ public class ThirdRM {
                         // Request all RMs to send back list of messages
                         send_multicast_toRM(initial_message);
                     }
-                    System.out.println("is adding queue:" + message);
+                    System.out.println("is adding queue:" + message + "|| lastSequence>>>" + lastSequenceID);
                     message_q.add(message);
                     message_list.put(message.sequenceId, message);
                     }
@@ -113,10 +112,10 @@ public class ThirdRM {
                     update_message_list(parts[1]);
                 } else if (parts[2].equalsIgnoreCase("11")) {
                     Message message = message_obj_create(data);
-                    System.out.println("RM3 has bug:" + message.toString());
+                    System.out.println("RM1 has bug:" + message.toString());
                 } else if (parts[2].equalsIgnoreCase("12")) {
                     Message message = message_obj_create(data);
-                    System.out.println("RM3 has bug:" + message.toString());
+                    System.out.println("RM2 has bug:" + message.toString());
                 } else if (parts[2].equalsIgnoreCase("13")) {
                     Message message = message_obj_create(data);
                     System.out.println("RM3 has bug:" + message.toString());
@@ -167,7 +166,7 @@ public class ThirdRM {
                     };
                     Thread handleThread = new Thread(crash_task);
                     handleThread.start();
-//                    handleThread.join();
+                    handleThread.join();
                     System.out.println("RM3 handled the crash!");
                     serversFlag = true;
                 }
@@ -252,13 +251,13 @@ public class ThirdRM {
         while (true) {
             synchronized (ThirdRM.class) {
                 Iterator<Message> itr = message_q.iterator();
-                // && !message_q.contains(itr.next())
                 while (itr.hasNext()) {
                     Message data = itr.next();
-                    System.out.println("RM3 is executing message request. Detail:" + data);
+                    //System.out.println("RM3 is executing message request. Detail:" + data);
                     //when the servers are down serversFlag is False therefore, no execution untill all servers are up.
                     if (data.sequenceId == lastSequenceID && serversFlag) {
                         if (data.userID.equalsIgnoreCase(Bug_ID) && BugFlag == true) {
+//                            if (bug_counter == 0)
                             System.out.println("RM3 is executing message request. Detail:" + data);
                             requestToServers(data);
                             Message bug_message = new Message(data.sequenceId, "Null", "RM3",
@@ -269,10 +268,10 @@ public class ThirdRM {
                             lastSequenceID += 1;
                             messsageToFront(bug_message.toString(), data.FrontIpAddress);
                             message_q.poll();
-                            } else {
-                            System.out.println("RM2 is executing message request. Detail:" + data);
+                        } else {
+                            System.out.println("RM3 is executing message request. Detail:" + data);
                             String response = requestToServers(data);
-                            Message message = new Message(data.sequenceId, response, "RM2",
+                            Message message = new Message(data.sequenceId, response, "RM3",
                                     data.Function, data.userID, data.newAppointmentID,
                                     data.newAppointmentType, data.oldAppointmentID,
                                     data.oldAppointmentType, data.bookingCapacity);

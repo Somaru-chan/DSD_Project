@@ -18,14 +18,13 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class SecondRM {
     static Service montrealSer, quebecSer, sherbrookeSer;
-
     private static final String Bug_ID = "MTLA888888";
     private static final String Crash_ID = "MTLA999999";
     public static int lastSequenceID = 1;
+    public static int bug_counter = 0;
     public static ConcurrentHashMap<Integer, Message> message_list = new ConcurrentHashMap<>();
     public static Queue<Message> message_q = new ConcurrentLinkedQueue<Message>();
     private static boolean serversFlag = true;
-
     private static boolean BugFlag = true;
 
     public static void main(String[] args) throws Exception {
@@ -99,10 +98,10 @@ public class SecondRM {
                             // Request all RMs to send back list of messages
                             send_multicast_toRM(initial_message);
                         }
-                        System.out.println("is adding queue:" + message);
+                        System.out.println("is adding queue:" + message + "|| lastSequence>>>" + lastSequenceID);
                         message_q.add(message);
                         message_list.put(message.sequenceId, message);
-                        }
+                    }
                 } else if (parts[2].equalsIgnoreCase("01")) {
                     Message message = message_obj_create(data);
                     if (!message_list.contains(message.sequenceId))
@@ -113,13 +112,14 @@ public class SecondRM {
                     update_message_list(parts[1]);
                 } else if (parts[2].equalsIgnoreCase("11")) {
                     Message message = message_obj_create(data);
-                    System.out.println("RM2 has bug:" + message.toString());
+                     BugFlag = false;
+                     System.out.println("RM1 has bug:" + message.toString());
                 } else if (parts[2].equalsIgnoreCase("12")) {
                     Message message = message_obj_create(data);
                     System.out.println("RM2 has bug:" + message.toString());
                 } else if (parts[2].equalsIgnoreCase("13")) {
                     Message message = message_obj_create(data);
-                    System.out.println("RM2 has bug:" + message.toString());
+                    System.out.println("RM3 has bug:" + message.toString());
                 } else if (parts[2].equalsIgnoreCase("22")) {
                     Runnable crash_task = () -> {
                         try {
@@ -167,7 +167,7 @@ public class SecondRM {
                     };
                     Thread handleThread = new Thread(crash_task);
                     handleThread.start();
-//                    handleThread.join();
+                    handleThread.join();
                     System.out.println("RM2 handled the crash!");
                     serversFlag = true;
                 }
@@ -390,10 +390,8 @@ public class SecondRM {
 
     public static void reloadServers() throws Exception {
         for (ConcurrentHashMap.Entry<Integer, Message> entry : message_list.entrySet()) {
-//            System.out.println("Recovery Mode-RM2 is executing message request. Detail:" + entry.getValue().toString());
-//            requestToServers(entry.getValue());
-            if (entry.getValue().sequenceId >= lastSequenceID)
-                lastSequenceID = entry.getValue().sequenceId + 1;
+            if (entry.getValue().sequenceId < lastSequenceID)
+                requestToServers(entry.getValue());
         }
 //        message_q.clear();
     }

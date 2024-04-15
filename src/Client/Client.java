@@ -338,7 +338,7 @@ public class Client {
 
     private static String askForPatientIDFromAdmin(String branchCode) {
         System.out.println("Please enter a patientID(Within " + branchCode + " Server):");
-        String userID =userInput.next().trim().toUpperCase();
+        String userID =userInput.next().trim();
         if (checkUserType(userID) != USER_TYPE_PATIENT|| !userID.substring(0, 3).equals(branchCode)) {
             return askForPatientIDFromAdmin(branchCode);
         } else {
