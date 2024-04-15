@@ -1,15 +1,20 @@
 package Sequencer;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
 
 public class Sequencer {
     private static int sequencerId = 0;
 //    private static final String sequencerIP = "192.168.2.17";
-	private static final String sequencerIP = "localhost";
+	private static final String sequencerIP;
+
+    static {
+        try {
+            sequencerIP = InetAddress.getLocalHost().getHostAddress();
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public static void main(String[] args) {
         DatagramSocket aSocket = null;
