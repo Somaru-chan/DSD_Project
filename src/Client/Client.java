@@ -59,46 +59,154 @@ public class Client {
         Service service = Service.create(url, qName);
         IFEServices ifeServices = service.getPort(IFEServices.class);
 
-        Runnable addApp1 = () -> {
-            String response = ifeServices.addAppointment("MTLA404040", "MTLA808080", "Dental", 5);
-            System.out.println("addAppointment(\"MTLA909090\", \"Dental\", 2) -->" + response);
+        Runnable addAppointment1 = () -> {
+            String response = ifeServices.addAppointment("MTLA010101","MTLE101922", "Dental", 3);
+            System.out.println("addAppointment(\"MTLE101922\", \"Dental\", 3) -->" + response);
+        };
+        Runnable addAppointment2 = () -> {
+            String response = ifeServices.addAppointment("QUEA010101", "QUEE101921", "Dental", 3);
+            System.out.println("addAppointment(\"QUEE101921\", \"Dental\", 3) -->" + response);
+        };
+        Runnable addAppointment3 = () -> {
+            String response = ifeServices.addAppointment("SHEA010101","SHEE101920", "Dental", 3);
+            System.out.println("addAppointment(\"SHEE101920\", \"Dental\", 3) -->" + response);
+        };
+        Runnable addAppointment4 = () -> {
+            String response = ifeServices.addAppointment("MTLA010101","MTLE101923", "Surgeon", 3);
+            System.out.println("addAppointment(\"MTLE101923\", \"Surgeon\", 3) -->" + response);
+        };
+        Runnable bookAppointment1 = () -> {
+            String response = ifeServices.bookAppointment("MTLP00001", "MTLE101922", "Dental");
+            System.out.println("bookAppointment(\"MTLP00001\", \"MTLE101922\", \"Dental\") -->" + response);
+        };
+        Runnable bookAppointment2 = () -> {
+            String response = ifeServices.bookAppointment("MTLP00002", "MTLE101922", "Dental");
+            System.out.println("bookAppointment(\"MTLP00002\", \"MTLE101922\", \"Dental\") -->" + response);;
+        };
+        Runnable bookAppointment3 = () -> {
+            String response = ifeServices.bookAppointment("MTLP00003", "MTLE101922", "Dental");
+            System.out.println("bookAppointment(\"MTLP00003\", \"MTLE101922\", \"Dental\") -->" + response);
+        };
+        Runnable bookAppointment4 = () -> {
+            String response = ifeServices.bookAppointment("MTLP00004", "MTLE101922", "Dental");
+            System.out.println("bookAppointment(\"MTLP00004\", \"MTLE101922\", \"Dental\") -->" + response);
+        };
+        Runnable bookAppointment5 = () -> {
+            String response = ifeServices.bookAppointment("QUEP00001", "QUEE101921", "Dental");
+            System.out.println("bookAppointment(\"QUEP00001\", \"QUEE101921\", \"Dental\") -->" + response);
+        };
+        Runnable bookAppointment6 = () -> {
+            String response = ifeServices.bookAppointment("QUEP00001", "QUEE101921", "Dental");
+            System.out.println("bookAppointment(\"QUEP00001\", \"QUEE101921\", \"Dental\") -->" + response);
+        };
+        Runnable bookAppointment7 = () -> {
+            String response = ifeServices.bookAppointment("SHEP00001", "SHEE101920", "Dental");
+            System.out.println("bookAppointment(\"SHEP00001\", \"SHEE101921\", \"Dental\") -->" + response);
+        };
+        Runnable getAppointmentSchedule1 = () -> {
+            String response = ifeServices.getAppointmentSchedule("MTLP00002");
+            System.out.println("getAppointmentSchedule(\"MTLP00002\") -->" + response);
+        };
+        Runnable listAppointmentAvailability1 = () -> {
+            String response = ifeServices.listAppointmentAvailability( "MTLA010101","Dental");
+            System.out.println("listAppointmentAvailability( \"Dental\") -->" + response);
+        };
+        Runnable swapAppointment1 = () -> {
+            String response = ifeServices.swapAppointment("MTLP00002","MTLE101922", "Dental", "MTLE101923", "Surgeon");
+            System.out.println("swapAppointment(\"MTLP00002\", \"MTLE101922\",\"Dental\", \"MTLE101923\", \"Surgeon\" -->" + response);
+        };
+        Runnable cancelAppointment1 = () -> {
+            String response = ifeServices.cancelAppointment("MTLP00001","MTLE101922","Dental");
+            System.out.println("cancelAppointment(\"MTLP00001\", \"MTLE101922\" -->" + response);
+        };
+        Runnable removeAppointment1 = () -> {
+            String response = ifeServices.removeAppointment("MTLA010101","MTLE101923", "Surgeon");
+            System.out.println("removeAppointment(\"MTLE101923\",\"Surgeon\" -->" + response);
         };
 
-        Runnable bookApp1 = () -> {
-            String response = ifeServices.bookAppointment("MTLP123456", "MTLA808080", "Dental");
-            System.out.println("bookAppointment(\"MTLP123456\", \"MTLA808080\", \"Dental\") -->" + response);
-        };
-        Runnable bookApp2 = () -> {
-            String response = ifeServices.bookAppointment("MTLP567890", "MTLA808080", "Dental");
-            System.out.println("bookAppointment(\"MTLP567890\", \"MTLA808080\", \"Dental\") -->" + response);
-        };
-        Runnable bookApp3 = () -> {
-            String response = ifeServices.bookAppointment("MTLP654321", "MTLA808080", "Dental");
-            System.out.println("bookAppointment(\"MTLP654321\", \"MTLA808080\", \"Dental\") -->" + response);
-        };
-        Runnable bookApp4 = () -> {
-            String response = ifeServices.bookAppointment("MTLP876543", "MTLA808080", "Dental");
-            System.out.println("bookAppointment(\"MTLP876543\", \"MTLA808080\", \"Dental\") -->" + response);
-        };
+        Thread thread1 = new Thread(addAppointment1);
+        Thread thread2 = new Thread(addAppointment2);
+        Thread thread3 = new Thread(addAppointment3);
+        Thread thread4 = new Thread(addAppointment4);
+        try {
+            thread1.start();
+            thread1.join();
+
+            thread2.start();
+            thread2.join();
+
+            thread3.start();
+            thread3.join();
+
+            thread4.start();
+            thread4.join();
+
+            Thread.sleep(500);
+            System.out.println("------------------------------------------------------------");
+
+            Thread thread5 = new Thread(bookAppointment1);
+            Thread thread6 = new Thread(bookAppointment2);
+            Thread thread7 = new Thread(bookAppointment3);
+            Thread thread8 = new Thread(bookAppointment4);
+            Thread thread9 = new Thread(bookAppointment5);
+            Thread thread10 = new Thread(bookAppointment6);
+            Thread thread11 = new Thread(bookAppointment7);
+
+            thread5.start();
+            thread5.join();
+
+            thread6.start();
+            thread6.join();
+
+            thread7.start();
+            thread7.join();
+
+            thread8.start();
+            thread8.join();
+
+            thread9.start();
+            thread9.join();
+
+            thread10.start();
+            thread10.join();
+
+            thread11.start();
+            thread11.join();
+
+            Thread.sleep(500);
+            System.out.println("------------------------------------------------------------");
 
 
-        Thread thread1 = new Thread(addApp1);
-        thread1.start();
-        Thread.sleep(500);
-        System.out.println("------------------------------------------------------------");
+            Thread thread12 = new Thread(getAppointmentSchedule1);
+            Thread thread13 = new Thread(listAppointmentAvailability1);
+            Thread thread14 = new Thread(swapAppointment1);
 
-        Thread thread3 = new Thread(bookApp1);
-        Thread thread4 = new Thread(bookApp2);
-        Thread thread5 = new Thread(bookApp3);
-        Thread thread6 = new Thread(bookApp4);
+            thread12.start();
+            thread12.join();
 
-        thread3.start();
-        thread4.start();
-        thread5.start();
-        thread6.start();
-        Thread.sleep(500);
+            thread13.start();
+            thread13.join();
 
+            thread14.start();
+            thread14.join();
 
+            Thread.sleep(500);
+            System.out.println("------------------------------------------------------------");
+
+            Thread thread15 = new Thread(cancelAppointment1);
+            Thread thread16 = new Thread(removeAppointment1);
+            thread15.start();
+            thread15.join();
+
+            thread16.start();
+            thread16.start();
+
+            Thread.sleep(500);
+            System.out.println("------------------------------------------------------------");
+
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void Run() throws MalformedURLException {
@@ -153,7 +261,6 @@ public class Client {
         }
         return 0;
     }
-
 
     private static void patient(String patientID) throws Exception {
         String branchCode = serverBranch(patientID);
