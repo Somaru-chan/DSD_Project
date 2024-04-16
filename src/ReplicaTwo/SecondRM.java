@@ -10,6 +10,7 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 import java.io.IOException;
 import java.net.*;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentHashMap;
@@ -45,10 +46,29 @@ public class SecondRM {
     }
 
     private static void receive() throws Exception {
+
+        System.setProperty("java.net.preferIPv4Stack", "true");
+
         MulticastSocket socket = null;
         try {
 
             socket = new MulticastSocket(1234);
+
+            Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+            while (networkInterfaces.hasMoreElements()) {
+                NetworkInterface networkInterface = networkInterfaces.nextElement();
+                Enumeration<InetAddress> addressesFromNetworkInterface = networkInterface.getInetAddresses();
+                while (addressesFromNetworkInterface.hasMoreElements()) {
+                    InetAddress inetAddress = addressesFromNetworkInterface.nextElement();
+                    if (inetAddress.isSiteLocalAddress()
+                            && !inetAddress.isAnyLocalAddress()
+                            && !inetAddress.isLinkLocalAddress()
+                            && !inetAddress.isLoopbackAddress()
+                            && !inetAddress.isMulticastAddress()) {
+                        socket.setNetworkInterface(NetworkInterface.getByName(networkInterface.getName()));
+                    }
+                }
+            }
 
             socket.joinGroup(InetAddress.getByName("230.1.1.10"));
 
